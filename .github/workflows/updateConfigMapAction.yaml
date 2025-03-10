@@ -23,8 +23,16 @@ jobs:
         else
           sed -i '/^data:$/a \ \ timestamp: "'$TIMESTAMP'"' appsinargocdnamespace/cm.yaml
         fi
+
+        if grep -q 'timestamp:' appnamespace1/cm.yaml; then
+          sed -i 's/timestamp: .*/timestamp: "'$TIMESTAMP'"/' appnamespace1/cm.yaml
+        else
+          sed -i '/^data:$/a \ \ timestamp: "'$TIMESTAMP'"' appnamespace1/cm.yaml
+        fi
+
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add appsinargocdnamespace/cm.yaml
+        git add appnamespace1/cm.yaml
         git commit -m "Update timestamp to $TIMESTAMP"
         git push origin main
