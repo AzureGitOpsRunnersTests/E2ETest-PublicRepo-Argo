@@ -1,0 +1,30 @@
+name: Update Timestamp
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  push:
+    branches:
+      - main
+
+jobs:
+  update-timestamp:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Update timestamp in file
+      run: |
+        TIMESTAMP=$(date +%s)
+        if grep -q 'timestamp:' appsinargocdnamespace/cm.yaml; then
+          sed -i 's/timestamp: .*/timestamp: "'$TIMESTAMP'"/' appsinargocdnamespace/cm.yaml
+        else
+          sed -i '/^data:$/a \ \ timestamp: "'$TIMESTAMP'"' appsinargocdnamespace/cm.yaml
+        fi
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add appsinargocdnamespace/cm.yaml
+        git commit -m "Update timestamp to $TIMESTAMP"
+        git push origin main
