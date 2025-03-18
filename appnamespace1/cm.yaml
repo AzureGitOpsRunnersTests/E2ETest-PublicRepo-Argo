@@ -4,6 +4,6 @@ metadata:
   name: example-configmap
   namespace: appnamespace1
 data:
-  timestamp: "1742327582"
+  timestamp: "1742328733"
   database: mongodb
   database_uri: mongodb://localhost:27017
