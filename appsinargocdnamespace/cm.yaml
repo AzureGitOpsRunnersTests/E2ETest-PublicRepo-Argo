@@ -4,6 +4,6 @@ metadata:
   name: example-configmap
   namespace: argocd
 data:
-  timestamp: "1765226309"
+  timestamp: "1765227066"
   database: mongodb
   database_uri: mongodb://localhost:27017
